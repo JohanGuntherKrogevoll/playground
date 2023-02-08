@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { AppConfigurationClient } from '@azure/app-configuration';
 
-const client = new AppConfigurationClient(process.env.NEXT_PUBLIC_CONNECTION_STRING!);
+const client = new AppConfigurationClient(process.env.FEATURE_FLAG_CONNECTION_STRING!);
 
 export default async function handler(
   req: NextApiRequest,

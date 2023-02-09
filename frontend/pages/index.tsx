@@ -3,11 +3,29 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useFeatureFlag } from '@/hooks/useFeatureFlag'
+import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const { enabled: flagEnabled } = useFeatureFlag('flagEnabled');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    async function fetchUserId() {
+      try {
+        const res = await fetch('/.auth/me');
+        if (res.ok) {
+          const json = await res.json()
+          setUserId(json[0].user_id);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      setUserId('');
+    }
+    fetchUserId();
+  }, []);
   return (
     <>
       <Head>
@@ -32,7 +50,7 @@ export default function Home() {
           </div>
         </div>
 
-        Built with
+        <p className={inter.className}>Built with</p>
         <div className={styles.center}>
           <Image
             className={styles.logo}
@@ -79,6 +97,35 @@ export default function Home() {
               </h2>
               <p className={inter.className}>
                 The flag is managed in an Azure App Configuration
+              </p>
+            </a>
+          }
+          {userId &&
+            <a
+              href="/.auth/logout"
+              className={styles.card}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h2 className={inter.className}>
+                Hi {userId} <span>-&gt;</span>
+              </h2>
+              <p className={inter.className}>
+                Nice to see you 😊 Click here to log out.
+              </p>
+            </a> 
+            ||
+            <a
+              href="/.auth/login/github"
+              className={styles.card}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h2 className={inter.className}>
+                Log in <span>-&gt;</span>
+              </h2>
+              <p className={inter.className}>
+                Click here to log in with GitHub.
               </p>
             </a>
           }

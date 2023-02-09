@@ -1,3 +1,4 @@
+export {}
 
 describe('Show login option when not authenticated', () => {
   it('passes', () => {

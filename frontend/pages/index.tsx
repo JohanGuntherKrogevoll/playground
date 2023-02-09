@@ -106,7 +106,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <h2 className={inter.className}>
+              <h2 className={inter.className} data-cy="authHeader">
                 Hi {userId} <span>-&gt;</span>
               </h2>
               <p className={inter.className}>
@@ -120,7 +120,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <h2 className={inter.className}>
+              <h2 className={inter.className} data-cy="authHeader">
                 Log in <span>-&gt;</span>
               </h2>
               <p className={inter.className}>

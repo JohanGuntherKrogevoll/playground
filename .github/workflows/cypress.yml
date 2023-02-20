@@ -1,17 +1,57 @@
-name: Cypress Tests
+name: End-to-End Test
 
 on: [push]
 
 jobs:
-  cypress-run:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm install
+          cd ../azure-functions
+          dotnet restore
+
+      - name: Build Azure Functions
+        run: |
+          cd azure-functions
+          dotnet build --configuration Release
+
+      - name: Publish Azure Functions
+        run: |
+          cd azure-functions
+          dotnet publish --configuration Release --output published
+
+      - name: Start Azure Function
+        run: |
+          cd azure-functions/published
+          func start &
+
+      - name: Wait for Azure Function to Start
+        run: |
+          cd azure-functions/published
+          until curl --silent --fail http://localhost:7071; do
+            sleep 1 && echo -n '.'
+          done
+
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend
           build: npm run build
-          start: npm start
+          start: npm run start --prefix frontend
+          wait-on: "http://localhost:7071"
+          record: true
 
+      - name: Stop Azure Function
+        run: pkill func

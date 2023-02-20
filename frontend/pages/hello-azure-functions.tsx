@@ -16,7 +16,7 @@ export default function HelloAzureFunctions() {
     if (router.isReady) {
       setName(router.query.name?.toString() || '')
     }
-  }, [router.isReady]);
+  }, [router.isReady, router.query.name]);
 
   useEffect(() => {
     async function fetchMessageFromAzureFunction() {

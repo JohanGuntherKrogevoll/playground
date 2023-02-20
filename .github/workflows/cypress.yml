@@ -59,7 +59,6 @@ jobs:
           build: npm run build
           start: npm run start
           wait-on: "http://localhost:7071"
-          record: true
 
       - name: Stop Azure Function
         run: pkill func

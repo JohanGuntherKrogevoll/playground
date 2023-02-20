@@ -53,6 +53,9 @@ jobs:
           done
 
       - name: Cypress run
+        env:
+          FEATURE_FLAG_CONNECTION_STRING:
+            { secrets.FEATURE_FLAG_CONNECTION_STRING }
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend

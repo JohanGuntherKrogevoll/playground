@@ -57,7 +57,7 @@ jobs:
         with:
           working-directory: frontend
           build: npm run build
-          start: npm run start --prefix frontend
+          start: npm run start
           wait-on: "http://localhost:7071"
           record: true
 

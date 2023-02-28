@@ -61,6 +61,7 @@ jobs:
           working-directory: frontend
           build: npm run build
           start: npm run start
+          record: true
           wait-on: "http://localhost:7071"
 
       - name: Stop Azure Function

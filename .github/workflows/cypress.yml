@@ -55,6 +55,7 @@ jobs:
       - name: Cypress run
         env:
           FEATURE_FLAG_CONNECTION_STRING: ${{ secrets.FEATURE_FLAG_CONNECTION_STRING }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend

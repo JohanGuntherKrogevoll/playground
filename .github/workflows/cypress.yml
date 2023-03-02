@@ -43,7 +43,7 @@ jobs:
       - name: Start Azure Function
         run: |
           cd azure-functions/published
-          func start --cors *
+          func start --cors * &
 
       - name: Cypress run
         env:

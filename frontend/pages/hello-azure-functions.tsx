@@ -24,7 +24,7 @@ export default function HelloAzureFunctions() {
         return
       }
       try {
-        const res = await fetch(`http://localhost:7071/api/HelloWorld?name=${name || ''}`);
+        const res = await fetch(`/api/hello-azure-function?name=${name || ''}`);
         if (res.ok) {
           setMessageFromAzureFunction(await res.text());
         }

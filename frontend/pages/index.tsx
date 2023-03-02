@@ -84,6 +84,18 @@ export default function Home() {
               The public repo for this site.
             </p>
           </a>
+          <a
+            href={`/hello-azure-functions?name=${userId}`}
+            className={styles.card}
+            rel="noopener noreferrer"
+          >
+            <h2 className={inter.className}>
+              Azure Functions
+            </h2>
+            <p className={inter.className}>
+              Say hi to Azure functions
+            </p>
+          </a>
           {flagEnabled &&
             <a
               href="https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview"
@@ -112,7 +124,7 @@ export default function Home() {
               <p className={inter.className}>
                 Nice to see you 😊 Click here to log out.
               </p>
-            </a> 
+            </a>
             ||
             <a
               href="/.auth/login/github"

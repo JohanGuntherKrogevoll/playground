@@ -43,7 +43,14 @@ jobs:
       - name: Start Azure Function
         run: |
           cd azure-functions/published
-          func start --cors * &
+          func start --cors * --verbose --csharp &
+
+      - name: Wait for Azure Function to Start
+        run: |
+          cd azure-functions/published
+          until curl --silent --fail http://localhost:7071; do
+            sleep 1 && echo -n '.'
+          done
 
       - name: Cypress run
         env:
@@ -56,7 +63,7 @@ jobs:
           build: npm run build
           start: npm run start
           record: true
-          wait-on: "http://127.0.0.1:7071"
+          wait-on: "http://localhost:7071"
 
       - name: Stop Azure Function
         run: pkill func

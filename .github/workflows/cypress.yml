@@ -56,7 +56,7 @@ jobs:
         env:
           FEATURE_FLAG_CONNECTION_STRING: ${{ secrets.FEATURE_FLAG_CONNECTION_STRING }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          AZURE_FUNCTION_URL: ${{ vars.CYPRESS_RECORD_KEY }}
+          AZURE_FUNCTION_URL: ${{ vars.AZURE_FUNCTION_URL }}
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend

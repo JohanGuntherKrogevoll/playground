@@ -45,13 +45,6 @@ jobs:
           cd azure-functions/published
           func start --cors *
 
-      - name: Wait for Azure Function to Start
-        run: |
-          cd azure-functions/published
-          until curl --silent --fail http://127.0.0.1:7071; do
-            sleep 1 && echo -n '.'
-          done
-
       - name: Cypress run
         env:
           FEATURE_FLAG_CONNECTION_STRING: ${{ secrets.FEATURE_FLAG_CONNECTION_STRING }}

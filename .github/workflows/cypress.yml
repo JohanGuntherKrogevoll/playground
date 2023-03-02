@@ -43,7 +43,7 @@ jobs:
       - name: Start Azure Function
         run: |
           cd azure-functions/published
-          func start &
+          func start --cors * &
 
       - name: Wait for Azure Function to Start
         run: |

@@ -1,17 +1,69 @@
-name: Cypress Tests
+name: End-to-End Test
 
 on: [push]
 
 jobs:
-  cypress-run:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm install
+          cd ../azure-functions
+          dotnet restore
+
+      - name: Install Azure Functions Core Tools
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list'
+          sudo apt-get update
+          sudo apt-get install azure-functions-core-tools
+
+      - name: Build Azure Functions
+        run: |
+          cd azure-functions
+          dotnet build --configuration Release
+
+      - name: Publish Azure Functions
+        run: |
+          cd azure-functions
+          dotnet publish --configuration Release --output publish
+
+      - name: Start Azure Function
+        run: |
+          cd azure-functions/publish
+          func start --cors * --verbose --csharp &
+
+      - name: Wait for Azure Function to Start
+        run: |
+          cd azure-functions/publish
+          until curl --silent --fail -v http://localhost:7071; do
+            sleep 1 && echo -n '.'
+          done
+
       - name: Cypress run
+        env:
+          FEATURE_FLAG_CONNECTION_STRING: ${{ secrets.FEATURE_FLAG_CONNECTION_STRING }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          AZURE_FUNCTION_URL: ${{ vars.AZURE_FUNCTION_URL }}
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend
           build: npm run build
-          start: npm start
+          start: npm run start
+          record: true
+          wait-on: "http://localhost:7071"
 
+      - name: Stop Azure Function
+        run: pkill func

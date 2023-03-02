@@ -38,16 +38,16 @@ jobs:
       - name: Publish Azure Functions
         run: |
           cd azure-functions
-          dotnet publish --configuration Release --output published
+          dotnet publish --configuration Release --output publish
 
       - name: Start Azure Function
         run: |
-          cd azure-functions/published
+          cd azure-functions/publish
           func start --cors * --verbose --csharp &
 
       - name: Wait for Azure Function to Start
         run: |
-          cd azure-functions/published
+          cd azure-functions/publish
           until curl --silent --fail -v http://localhost:7071; do
             sleep 1 && echo -n '.'
           done

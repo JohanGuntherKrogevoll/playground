@@ -2,7 +2,7 @@ name: Deploy DotNet project to function app with a Linux environment
 
 on:
   workflow_run:
-    workflows: ["cypress"]
+    workflows: ["End-to-End Test"]
     branches: [main]
     types:
       - completed

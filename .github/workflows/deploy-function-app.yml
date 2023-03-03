@@ -9,7 +9,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: jgkplayground-fun
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./azure-function-app"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "azure-functions"
   DOTNET_VERSION: "6.0.x"
 
 jobs:

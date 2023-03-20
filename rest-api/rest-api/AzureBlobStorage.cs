@@ -1,5 +1,4 @@
 ﻿using Azure.Storage.Blobs;
-using Microsoft.Extensions.Options;
 using rest_api.Models;
 
 public class AzureBlobStorage : IBlobStorageClient
@@ -20,7 +19,7 @@ public class AzureBlobStorage : IBlobStorageClient
             BlobServiceClient blobServiceClient = new BlobServiceClient(_connectionStrings.azureBlobStorage);
             var blobContainerClient = blobServiceClient.GetBlobContainerClient("jgkplaygroundc");
             var blobClient = blobContainerClient.GetBlobClient(textFile.FileName);
-            using( var fileStream = textFile.openFileStream())
+            using (var fileStream = textFile.openFileStream())
             {
                 var response = blobClient.Upload(fileStream);
             }

@@ -23,15 +23,17 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
+        working-directory: ./rest-api
 
       - name: Build and test
         run: dotnet test --configuration Release --logger trx
+        working-directory: ./rest-api
 
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: "**/TEST-*.trx"
+          path: ".rest-api/**/TEST-*.trx"
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,7 +53,11 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           check_name: "Unit Tests"
-          junit: "**/TEST-*.trx"
+          junit: "./rest-api/**/TEST-*.trx"
+
+      - name: Publish application
+        run: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/publish
+        working-directory: ./rest-api
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -60,4 +66,4 @@ jobs:
           app-name: "jgkdotnet-api"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C48283A16F634DA79450E8FCE7221EEA }}
-          package: .
+          package: $(Build.ArtifactStagingDirectory)/publish

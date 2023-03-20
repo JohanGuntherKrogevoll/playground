@@ -96,6 +96,18 @@ export default function Home() {
               Say hi to Azure functions
             </p>
           </a>
+          <a
+            href={`/azure-blob-storage`}
+            className={styles.card}
+            rel="noopener noreferrer"
+          >
+            <h2 className={inter.className}>
+              Azure Blob Storage
+            </h2>
+            <p className={inter.className}>
+              Create a file in Azure blob storage
+            </p>
+          </a>
           {flagEnabled &&
             <a
               href="https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview"

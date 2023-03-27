@@ -42,7 +42,7 @@
       "applicationUrl": "https://localhost:7067;http://localhost:5039",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings.azureBlobStorage": "DefaultEndpointsProtocol=https;AccountName=jgkplaygroundsa;AccountKey=zlEJys+hLhJvhyVRVUHSHBZyOHh9/0KW7EK10+OQJUmsp5vw61CPtXjv0BuKN3ZzSATknu9prakR+ASttITxow==;EndpointSuffix=core.windows.net"
+        "ConnectionStrings.azureBlobStorage": ""
       }
     }
   }

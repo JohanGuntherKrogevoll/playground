@@ -1,0 +1,69 @@
+name: Build, test and deploy ASP.NET Core app to Azure Web App
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "7.x"
+          include-prerelease: true
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./rest-api
+
+      - name: Build and test
+        run: dotnet test --configuration Release --logger trx
+        working-directory: ./rest-api
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: "./rest-api/**/TEST-*.trx"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: "Production"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build and test job
+        uses: actions/download-artifact@v2
+        with:
+          name: test-results
+
+      - name: Check test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          check_name: "Unit Tests"
+          junit: "./rest-api/**/TEST-*.trx"
+
+      - name: Publish application
+        run: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/publish
+        working-directory: ./rest-api
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "jgkdotnet-api"
+          slot-name: "Production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C48283A16F634DA79450E8FCE7221EEA }}
+          package: $(Build.ArtifactStagingDirectory)/publish

@@ -53,7 +53,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           check_name: "Unit Tests"
-          trx_files: "./rest-api/**/*.trx"
+          trx_files: "/**/*.trx"
 
       - name: Publish application
         run: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/publish

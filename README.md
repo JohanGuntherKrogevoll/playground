@@ -3,6 +3,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/JohanGuntherKrogevoll/playground)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fjgkplayground.azurewebsites.net)](https://jgkplayground.azurewebsites.net)
 
-# Playground
+# Azure Playground
 
-For playing with the fun stuff.
+For playing with the stuff i was learning when taking the [Azure Fundamentals](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/?practice-assessment-type=certification) certification.

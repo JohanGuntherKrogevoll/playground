@@ -15,8 +15,8 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https1' " />
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.21.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.22.1" />
   </ItemGroup>
 
   <ItemGroup>
